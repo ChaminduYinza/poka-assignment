@@ -1,0 +1,25 @@
+<header class="header">
+  <a href="#" (click)="goBack(); $event.preventDefault()">
+    < Back to all plants</a
+  >
+</header>
+<div class="contailer">
+  <div class="header-title">
+    <h3 class="header-text">
+      {{ plantDetail?.name }}
+      <br />
+      <span class="sub-title">{{ plantDetail?.division }}</span>
+    </h3>
+  </div>
+
+  <div class="detail-content">
+    <div *ngIf="addressData" class="card">
+      <app-plant-address-card [addressDetail]="addressData">
+      </app-plant-address-card>
+    </div>
+    <div *ngIf="plantDetail" class="card">
+      <app-plant-description-card [description]="plantDetail.description">
+      </app-plant-description-card>
+    </div>
+  </div>
+</div>

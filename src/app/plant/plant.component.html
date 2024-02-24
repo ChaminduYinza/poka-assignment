@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="header-title">
+    <h3 class="header-text">Plants</h3>
+  </div>
+</header>
+
+<div class="card-container" *ngIf="plantOb$ | async as dataList">
+  @for (plant of dataList.results; track plant.id){
+  <app-plant-list-card
+    [routerLink]="['/plants', plant.id]"
+    [attr.id]="'plantListNo_' + plant.id"
+    class="card"
+    [plant]="plant"
+  >
+  </app-plant-list-card>
+  }
+  <button
+    #loadMoreButton
+    id="loadMoreButton"
+    [disabled]="!dataList.next"
+    [ngClass]="{ disabled: !dataList.next }"
+    (click)="loadMoreResults(dataList.next)"
+  >
+    Load More Results
+  </button>
+</div>

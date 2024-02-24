@@ -1,0 +1,83 @@
+header {
+  background-color: #4f5c6f;
+  padding: 5% 0% 0% 0%;
+  text-align: left;
+}
+
+.header-title {
+  display: inline-block;
+  color: #ffffff;
+  font-size: 24px;
+  background-color: #323a47;
+  width: 80%;
+  margin: 0% 10% 0%;
+}
+
+.header-text {
+  padding: 2%;
+  margin: 0;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0% 9.5%; // -.5% due to padding in card
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.card-container a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Base styles for the card */
+.card {
+  width: calc(20% - 20px);
+  margin: 10px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+/* Tablet Breakpoint: 768px to 1024px */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .card {
+    width: calc(50% - 20px); // 20px margin between cards
+  }
+}
+
+/* Mobile Breakpoint: 768px to 1024px */
+@media screen and (max-width: 767px) {
+  .card {
+    width: calc(100% - 20px); // 20px margin between cards
+  }
+}
+
+button {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background: linear-gradient(to left, #416fe3, #438eda);
+  border-radius: 6px;
+  color: white;
+  border: 2px solid white;
+}
+
+button:hover {
+  background: linear-gradient(to left, #405fac, #3879b9);
+  border: 2px solid #ffa;
+}
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
