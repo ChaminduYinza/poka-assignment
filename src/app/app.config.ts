@@ -1,5 +1,5 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
@@ -9,9 +9,10 @@ import { reducers, metaReducers } from './state-management/reducers';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    // using HashLocationStrategy since the screenshot contails urls with #
+    provideRouter(routes, withHashLocation()),
     provideHttpClient(withFetch()),
     provideClientHydration(),
-    provideStore(reducers, { metaReducers })
-],
+    provideStore(reducers, { metaReducers }),
+  ],
 };

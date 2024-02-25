@@ -40,9 +40,11 @@ header {
   width: calc(20% - 20px); // 20px margin between cards
   margin: 10px;
   border: 1px solid #ccc;
-  padding: 20px;
+  padding: 1%;
   box-sizing: border-box;
   background-color: #ffffff;
+  border-radius: 4%;
+  border-color: white;
 }
 
 /* Tablet Breakpoint: 768px to 1024px */
@@ -63,10 +65,10 @@ button {
   display: block;
   width: 200px;
   margin: 20px auto;
-  padding: 10px;
+  padding: 13px;
   font-size: 16px;
   cursor: pointer;
-  background: linear-gradient(to left, #416fe3, #438eda);
+  background: linear-gradient(to left, #007fff, #0746e3);
   border-radius: 6px;
   color: white;
   border: 2px solid white;
