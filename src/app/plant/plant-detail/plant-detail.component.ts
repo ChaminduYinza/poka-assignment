@@ -103,7 +103,7 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
    * @returns
    */
   getPlantDetails(index: number) {
-    const URL = environment.api_plant_base_url + `/${index}xx/`;
+    const URL = environment.api_plant_base_url + `/${index}/`;
     return this.apiService.getPlantDetail(URL);
   }
 
