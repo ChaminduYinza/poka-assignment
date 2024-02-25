@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   OnDestroy,
@@ -23,9 +24,11 @@ import { BlockUiComponent } from '../block-ui/block-ui.component';
   providers: [APIService],
   templateUrl: './plant.component.html',
   styleUrl: './plant.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, PlantListCardComponent, RouterLink, BlockUiComponent],
 })
 export class PlantComponent implements OnInit, OnDestroy {
+  // TODO: scroll to the latest added card when load more happen
   @ViewChild('listContainer') listContainer!: ElementRef;
 
   subscription: Subscription = new Subscription();
@@ -42,10 +45,15 @@ export class PlantComponent implements OnInit, OnDestroy {
         filter((data) => !data || data.results.length === 0)
       )
       .subscribe(() => {
+        // calling w/o paramters since onInit we have to take first page
         this.loadMoreResults();
       });
   }
 
+  /**
+   * triggers in onInit with fetchURL to null and when user click on load more button
+   * @param fetchURL handling pagination eg ?offset=10
+   */
   loadMoreResults(fetchURL: string | null = ''): void {
     this.isLoading = true;
     const URL = environment.api_plant_base_url + fetchURL;
@@ -55,17 +63,24 @@ export class PlantComponent implements OnInit, OnDestroy {
         .pipe(finalize(() => (this.isLoading = false)))
         .subscribe({
           next: (response: PlantRes) => this.setResults(response),
-          error: (error) => console.error('There was an error!', error),
+          error: () => console.error('There was an error!'),
         })
     );
   }
 
+  /**
+   * capture result and push into ngrx store
+   * @param response PlantRes res from API
+   */
   setResults(response: PlantRes): void {
     if (response != null && response.results?.length > 0) {
       this.store.dispatch(PlantAction.setPlantsData({ plantRes: response }));
     }
   }
 
+  /**
+   * un subscribe on componenet destroy
+   */
   ngOnDestroy(): void {
     if (this.subscription != null) {
       this.subscription.unsubscribe();

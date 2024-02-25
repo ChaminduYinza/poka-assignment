@@ -19,6 +19,7 @@ import { PlantRes } from '../model/plant.mode';
 import { environment } from '../../environments/environment';
 import * as PlantAction from '../state-management/actions/plant.action';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 describe('PlantComponent', () => {
   let component: PlantComponent;
@@ -50,7 +51,12 @@ describe('PlantComponent', () => {
         provideHttpClientTesting(),
         provideMockStore({ initialState }),
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PlantComponent, {
+        // to overcome fixture.detection on mock
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
 
     httpTestingController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(PlantComponent);
@@ -94,6 +100,24 @@ describe('PlantComponent', () => {
     const req = httpTestingController.expectOne(environment.api_plant_base_url);
     req.flush(initialState);
     httpTestingController.verify();
+  });
+
+  it('should not push to store if response is null or result is empty', () => {
+    const dispatchSpy = spyOn(store, 'dispatch');
+    component.loadMoreResults();
+    const req = httpTestingController.expectOne(environment.api_plant_base_url);
+    req.flush({});
+    expect(dispatchSpy).not.toHaveBeenCalled();
+    httpTestingController.verify();
+  });
+
+  it('should log an error message when API return error', () => {
+    const consoleSpy = spyOn(console, 'error');
+
+    component.loadMoreResults();
+    const req = httpTestingController.expectOne(environment.api_plant_base_url);
+    req.error(new ErrorEvent('There was an error'));
+    expect(consoleSpy).toHaveBeenCalledWith('There was an error!');
   });
 
   it('should dispatch setPlantsData action when the API returns valid response', () => {

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription, finalize, switchMap } from 'rxjs';
-import { APIService} from '../../service/api.service';
+import { APIService } from '../../service/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PlantDetail } from '../../model/plant.mode';
 import { environment } from '../../../environments/environment';
@@ -33,44 +33,85 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   ngOnInit(): void {
+    // setting spinner (loader) true
     this.isLoading = true;
-    this.subscription.add(
-      this.route.paramMap
-        .pipe(
-          switchMap((params) => {
-            const index = Number(params.get('index'));
-            return this.getPlantDetails(index).pipe(
-              finalize(() => (this.isLoading = false))
-            );
-          })
-        )
-        .subscribe({
-          next: (response: PlantDetail) => {
-            if (response) {
-              const { address, city, country, manager, phone, name } = response;
-              this.plantDetail = response;
-              this.addressData = { address, city, country, manager, phone };
-              this.titleService.setTitle(`Poka | ${name}`);
-            } else {
-              console.error('There was an error!');
-            }
-          },
-          error: (error) => {
-            console.error('There was an error!', error);
-          },
+    this.route.paramMap
+      .pipe(
+        switchMap((params) => {
+          // router param which includes the plantid
+          const index = Number(params.get('index'));
+          return this.getPlantDetails(index).pipe(
+            // setting spinner (loader) false
+            finalize(() => (this.isLoading = false))
+          );
         })
-    );
+      )
+      .subscribe({
+        next: (response: PlantDetail) => {
+          this.handleResponse(response);
+        },
+        error: (error) => {
+          this.handleError(error);
+        },
+      });
   }
 
+  /**
+   * destruct response and assign in order to pass into child componenets
+   * updating title based on the plant name
+   * @param response PlantDetail: api response
+   */
+  handleResponse(response: PlantDetail): void {
+    if (response) {
+      const { address, city, country, manager, phone, name } = response;
+      this.plantDetail = response;
+      this.addressData = { address, city, country, manager, phone };
+
+      // change browser title
+      this.titleService.setTitle(`Poka | ${name}`);
+    } else {
+      this.logError('No plant details found.');
+    }
+  }
+
+  /**
+   * handle API error
+   * @param error
+   */
+  handleError(error: string | Error): void {
+    this.logError('There was an error!', error.toString());
+  }
+
+  /** // TODO: need to implement custom swal since instructions specified not to use visualization libraries
+   * log error into console
+   * @param message
+   * @param error
+   */
+  logError(message: string, error?: string): void {
+    console.error(message, error || '');
+    // TODO: need to implement custom swal since instructions specified not to use visualization libraries
+  }
+
+  /**
+   * call API to fetch plant details
+   * @param index plant id
+   * @returns
+   */
   getPlantDetails(index: number) {
     const URL = environment.api_plant_base_url + `/${index}/`;
     return this.apiService.getPlantDetail(URL);
   }
 
+  /**
+   * handle browser back
+   */
   goBack(): void {
     this.location.back();
   }
 
+  /**
+   * un subscribe on destroy
+   */
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

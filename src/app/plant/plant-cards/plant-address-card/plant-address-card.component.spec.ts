@@ -33,10 +33,8 @@ describe('PlantAddressCardComponent', () => {
 
   it('should format address details correctly', () => {
     component.formatAddressDetail();
-    // Expected formatted address
     const expectedFormattedAddress = '119 Webb View Apt. 563\nTEST, TEST\n123';
 
-    // Assert the expected outcome
     expect(component.addressDetailFormatted).toEqual(expectedFormattedAddress);
   });
 });

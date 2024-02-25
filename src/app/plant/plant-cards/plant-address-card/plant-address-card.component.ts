@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { PlantDetail } from '../../../model/plant.mode';
 
 @Component({
@@ -7,6 +12,7 @@ import { PlantDetail } from '../../../model/plant.mode';
   imports: [],
   templateUrl: './plant-address-card.component.html',
   styleUrl: './plant-address-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlantAddressCardComponent implements OnInit {
   @Input() addressDetail!: Omit<
@@ -19,6 +25,9 @@ export class PlantAddressCardComponent implements OnInit {
     this.formatAddressDetail();
   }
 
+  /**
+   * for received input to display on address card
+   */
   formatAddressDetail(): void {
     const { address, city, country, phone } = this.addressDetail;
     this.addressDetailFormatted = `${address}\n${city}, ${country}\n${phone}`;

@@ -72,7 +72,7 @@ describe('PlantDetailComponent', () => {
     expect(component.getPlantDetails).toHaveBeenCalledWith(2);
   });
 
-  it('should set plant detail on init', () => {
+  it('should set plant detail oninit', () => {
     // since ActivatedRoute is defined it will trigger automatically on each test case
     const req = httpTestingController.expectOne(
       environment.api_plant_base_url + '/1/'
@@ -81,12 +81,31 @@ describe('PlantDetailComponent', () => {
     expect(component.plantDetail).toEqual(mockPlantDetail);
   });
 
+  it('should call handle respone when success response received from API', () => {
+    spyOn(component, 'handleResponse');
+    const req = httpTestingController.expectOne(
+      environment.api_plant_base_url + '/1/'
+    );
+    req.flush(mockPlantDetail);
+    expect(component.handleResponse).toHaveBeenCalledOnceWith(mockPlantDetail);
+  });
+
+  it('should call handle logs error when API response is null', () => {
+    spyOn(component, 'logError');
+    const req = httpTestingController.expectOne(
+      environment.api_plant_base_url + '/1/'
+    );
+    req.flush(null);
+    expect(component.logError).toHaveBeenCalledWith('No plant details found.');
+  });
+
   it('should set browser title based on the plant detail recived from the API', () => {
     const req = httpTestingController.expectOne(
       environment.api_plant_base_url + '/1/'
     );
     req.flush(mockPlantDetail);
     expect(document.title).toBe(`Poka | ${mockPlantDetail.name}`);
+    httpTestingController.verify();
   });
 
   it('should trigger an api to get plant details', () => {
@@ -153,6 +172,18 @@ describe('PlantDetailComponent', () => {
       const style = window.getComputedStyle(firstDiv.nativeElement);
       expect(style.flexDirection).toBe('row');
     });
+  }));
+
+  it('should handle errors correctly', fakeAsync(() => {
+    spyOn(component, 'handleError');
+    const req = httpTestingController.expectOne(
+      environment.api_plant_base_url + '/1/'
+    );
+    req.error(new ErrorEvent('Unexpected Error Occured'));
+    httpTestingController.verify();
+
+    expect(component.handleError).toHaveBeenCalled();
+    expect(component.isLoading).toBeFalse(); // Check if isLoading is set to false after error
   }));
 
   xit('should show one column on small screens (767px)', fakeAsync(() => {

@@ -1,3 +1,4 @@
+<!-- custom block ui element -->
 <app-block-ui
   [isBlocking]="isLoading"
   [message]="'Processing your request, please be patient...'"
@@ -9,7 +10,8 @@
   </div>
 </header>
 
-<div class="card-container" *ngIf="plantOb$ | async as dataList">
+@if (plantOb$ | async; as dataList) {
+<div class="card-container">
   @for (plant of dataList.results; track plant.id){
   <app-plant-list-card
     [routerLink]="['/plants', plant.id]"
@@ -29,3 +31,4 @@
     Load More Results
   </button>
 </div>
+}

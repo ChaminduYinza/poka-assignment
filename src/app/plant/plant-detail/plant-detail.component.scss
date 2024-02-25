@@ -74,6 +74,7 @@
 /* Mobile Breakpoint: 768px to 1024px */
 @media screen and (max-width: 767px) {
   .detail-content {
+    // changing flex detection to divide divs into column instead row
     flex-direction: column;
   }
 

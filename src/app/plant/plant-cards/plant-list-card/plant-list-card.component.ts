@@ -10,6 +10,4 @@ import { Plant } from '../../../model/plant.mode';
 })
 export class PlantListCardComponent {
   @Input() plant!: Plant;
-
-  construct() {}
 }

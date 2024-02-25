@@ -1,3 +1,4 @@
+<!-- custom block ui element -->
 <app-block-ui
   [isBlocking]="isLoading"
   [message]="'Processing your request, please be patient...'"
@@ -18,13 +19,16 @@
   </div>
 
   <div class="detail-content">
-    <div *ngIf="addressData" class="card">
+    @if(addressData){
+    <div class="card">
       <app-plant-address-card [addressDetail]="addressData">
       </app-plant-address-card>
     </div>
-    <div *ngIf="plantDetail" class="card">
+    } @if(plantDetail){
+    <div class="card">
       <app-plant-description-card [description]="plantDetail.description">
       </app-plant-description-card>
     </div>
+    }
   </div>
 </div>
