@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription, switchMap } from 'rxjs';
-import { APIService } from '../service/api.service';
+import { APIService } from '../../service/api.service';
 import { ActivatedRoute } from '@angular/router';
-import { PlantDetail } from '../model/plant.mode';
-import { environment } from '../../environments/environment';
+import { PlantDetail } from '../../model/plant.mode';
+import { environment } from '../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { PlantAddressCardComponent } from '../plant-address-card/plant-address-card.component';
+import { PlantAddressCardComponent } from '../plant-cards/plant-address-card/plant-address-card.component';
 import { CommonModule, Location } from '@angular/common';
-import { PlantDescriptionCardComponent } from '../plant-description-card/plant-description-card.component';
+import { PlantDescriptionCardComponent } from '../plant-cards/plant-description-card/plant-description-card.component';
 
 @Component({
   selector: 'app-plant-detail',
@@ -22,12 +22,12 @@ import { PlantDescriptionCardComponent } from '../plant-description-card/plant-d
 })
 export class PlantDetailComponent implements OnInit, OnDestroy {
   plantDetail: PlantDetail | null = null;
-  addressData!: Pick<PlantDetail, 'address' | 'manager'>;
+  addressData!: Omit<PlantDetail, 'description' | 'division' | 'id' | 'name'>;
+  subscription: Subscription = new Subscription();
   private apiService = inject(APIService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
-  private location = inject(Location);
-  private subscription: Subscription = new Subscription();
+  public location = inject(Location);
 
   ngOnInit(): void {
     this.subscription.add(
@@ -41,10 +41,10 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response: PlantDetail) => {
             if (response) {
-              const { address, manager } = response;
+              const { address, city, country, manager, phone, name } = response;
               this.plantDetail = response;
-              this.addressData = { address, manager };
-              this.titleService.setTitle(`Pola | ${response.name}`);
+              this.addressData = { address, city, country, manager, phone };
+              this.titleService.setTitle(`Poka | ${name}`);
             } else {
               console.error('There was an error!');
             }
@@ -56,7 +56,7 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
     );
   }
 
-  private getPlantDetails(index: number) {
+  getPlantDetails(index: number) {
     const URL = environment.api_plant_base_url + `/${index}/`;
     return this.apiService.getPlantDetail(URL);
   }

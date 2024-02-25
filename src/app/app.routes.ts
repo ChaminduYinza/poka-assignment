@@ -10,7 +10,7 @@ export const routes: Routes = [
   {
     path: 'plants/:index',
     loadComponent: () =>
-      import('./plant-detail/plant-detail.component').then(
+      import('./plant/plant-detail/plant-detail.component').then(
         (mod) => mod.PlantDetailComponent
       ),
   },

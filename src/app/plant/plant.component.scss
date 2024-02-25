@@ -37,7 +37,7 @@ header {
 
 /* Base styles for the card */
 .card {
-  width: calc(20% - 20px);
+  width: calc(20% - 20px); // 20px margin between cards
   margin: 10px;
   border: 1px solid #ccc;
   padding: 20px;
@@ -55,7 +55,7 @@ header {
 /* Mobile Breakpoint: 768px to 1024px */
 @media screen and (max-width: 767px) {
   .card {
-    width: calc(100% - 20px); // 20px margin between cards
+    width: 100%;
   }
 }
 

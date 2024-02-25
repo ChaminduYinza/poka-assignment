@@ -8,16 +8,15 @@ describe('PlantDescriptionCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlantDescriptionCardComponent]
-    })
-    .compileComponents();
-    
+      imports: [PlantDescriptionCardComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PlantDescriptionCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create PlantDescriptionCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
