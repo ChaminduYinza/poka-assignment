@@ -44,7 +44,7 @@
 }
 .detail-content > div:first-child {
   padding: 10px;
-  margin: 0% 1% 0% 0%;
+  margin: 0% 2% 0% 0%;
 }
 .detail-content > div:last-child {
   flex: 3;
@@ -64,10 +64,20 @@
   }
   .detail-content > div:first-child {
     padding: 10px;
+    margin: 0% 2% 0% 0%;
+  }
+
+  .detail-content > div:first-child {
+    padding: 10px;
     margin: 0% 1% 0% 0%;
   }
+
   .detail-content > div:last-child {
     flex: 3;
+  }
+
+  .header a {
+    margin: -7% 10%;
   }
 }
 
