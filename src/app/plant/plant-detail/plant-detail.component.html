@@ -1,3 +1,8 @@
+<app-block-ui
+  [isBlocking]="isLoading"
+  [message]="'Processing your request, please be patient...'"
+></app-block-ui>
+
 <header class="header">
   <a id="goback" href="#" (click)="goBack(); $event.preventDefault()">
     < Back to all plants</a

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { Subscription, switchMap } from 'rxjs';
-import { APIService } from '../../service/api.service';
+import { Subscription, finalize, switchMap } from 'rxjs';
+import { APIService} from '../../service/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PlantDetail } from '../../model/plant.mode';
 import { environment } from '../../../environments/environment';
@@ -8,6 +8,7 @@ import { Title } from '@angular/platform-browser';
 import { PlantAddressCardComponent } from '../plant-cards/plant-address-card/plant-address-card.component';
 import { CommonModule, Location } from '@angular/common';
 import { PlantDescriptionCardComponent } from '../plant-cards/plant-description-card/plant-description-card.component';
+import { BlockUiComponent } from '../../block-ui/block-ui.component';
 
 @Component({
   selector: 'app-plant-detail',
@@ -18,6 +19,7 @@ import { PlantDescriptionCardComponent } from '../plant-cards/plant-description-
     PlantAddressCardComponent,
     CommonModule,
     PlantDescriptionCardComponent,
+    BlockUiComponent,
   ],
 })
 export class PlantDetailComponent implements OnInit, OnDestroy {
@@ -28,14 +30,18 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   public location = inject(Location);
+  isLoading = false;
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.subscription.add(
       this.route.paramMap
         .pipe(
           switchMap((params) => {
             const index = Number(params.get('index'));
-            return this.getPlantDetails(index);
+            return this.getPlantDetails(index).pipe(
+              finalize(() => (this.isLoading = false))
+            );
           })
         )
         .subscribe({
