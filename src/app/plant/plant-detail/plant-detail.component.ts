@@ -88,14 +88,13 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
     this.logError('There was an error!', error.toString());
   }
 
-  /** // TODO: need to implement custom swal since instructions specified not to use visualization libraries
+  /**
    * log error into console
    * @param message
    * @param error
    */
   logError(message: string, error?: string): void {
     console.error(message, error || '');
-    // TODO: need to implement custom swal since instructions specified not to use visualization libraries
   }
 
   /**
