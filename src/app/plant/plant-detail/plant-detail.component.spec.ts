@@ -96,6 +96,7 @@ describe('PlantDetailComponent', () => {
       environment.api_plant_base_url + '/1/'
     );
     req.flush(null);
+    expect(component.logError).toBeTruthy();
     expect(component.logError).toHaveBeenCalledWith('No plant details found.');
   });
 
@@ -182,6 +183,7 @@ describe('PlantDetailComponent', () => {
     req.error(new ErrorEvent('Unexpected Error Occured'));
     httpTestingController.verify();
 
+    expect(component.handleError).toBeTruthy();
     expect(component.handleError).toHaveBeenCalled();
     expect(component.isLoading).toBeFalse(); // Check if isLoading is set to false after error
   }));
