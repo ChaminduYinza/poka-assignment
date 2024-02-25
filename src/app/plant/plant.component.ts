@@ -17,6 +17,7 @@ import { Store } from '@ngrx/store';
 import { selectDataList } from '../state-management/selectors/plant.selectors';
 import * as PlantAction from '../state-management/actions/plant.action';
 import { BlockUiComponent } from '../block-ui/block-ui.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-plant',
@@ -24,7 +25,6 @@ import { BlockUiComponent } from '../block-ui/block-ui.component';
   providers: [APIService],
   templateUrl: './plant.component.html',
   styleUrl: './plant.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, PlantListCardComponent, RouterLink, BlockUiComponent],
 })
 export class PlantComponent implements OnInit, OnDestroy {
@@ -63,7 +63,14 @@ export class PlantComponent implements OnInit, OnDestroy {
         .pipe(finalize(() => (this.isLoading = false)))
         .subscribe({
           next: (response: PlantRes) => this.setResults(response),
-          error: () => console.error('There was an error!'),
+          error: () => {
+            Swal.fire({
+              title: 'Oops!',
+              text: 'Something went wrong. Please try again later',
+              icon: 'error',
+            });
+            console.error('There was an error!');
+          },
         })
     );
   }

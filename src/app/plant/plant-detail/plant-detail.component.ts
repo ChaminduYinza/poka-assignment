@@ -9,6 +9,7 @@ import { PlantAddressCardComponent } from '../plant-cards/plant-address-card/pla
 import { CommonModule, Location } from '@angular/common';
 import { PlantDescriptionCardComponent } from '../plant-cards/plant-description-card/plant-description-card.component';
 import { BlockUiComponent } from '../../block-ui/block-ui.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-plant-detail',
@@ -79,6 +80,11 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
    * @param error
    */
   handleError(error: string | Error): void {
+    Swal.fire({
+      title: 'Oops!',
+      text: 'Something went wrong. Please try again later',
+      icon: 'error',
+    });
     this.logError('There was an error!', error.toString());
   }
 
@@ -98,7 +104,7 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
    * @returns
    */
   getPlantDetails(index: number) {
-    const URL = environment.api_plant_base_url + `/${index}/`;
+    const URL = environment.api_plant_base_url + `/${index}xx/`;
     return this.apiService.getPlantDetail(URL);
   }
 
