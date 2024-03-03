@@ -14,4 +14,5 @@ export const routes: Routes = [
         (mod) => mod.PlantDetailComponent
       ),
   },
+  { path: '**', pathMatch: 'full', redirectTo: 'plants' },
 ];
