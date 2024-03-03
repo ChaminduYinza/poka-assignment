@@ -1,5 +1,7 @@
+@import "../../../assets/scss/theme.scss";
+
 header {
-  background-color: #4f5c6f;
+  background-color: $primary-color;
   padding: 3% 0% 0% 0%;
   text-align: left;
   display: flex;
@@ -8,7 +10,7 @@ header {
 
 .header a {
   margin: -2% 10%;
-  color: white;
+  color: $text-color;
   text-decoration: none;
   cursor: pointer;
   font-size: 18px;
@@ -17,9 +19,9 @@ header {
 
 .title {
   display: inline-block;
-  color: #ffffff;
+  color: $text-color;
   font-size: 24px;
-  background-color: #323a47;
+  background-color: $secondary-color;
   width: 80%;
   margin: 0% 10% 0%;
 }

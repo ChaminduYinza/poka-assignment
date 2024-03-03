@@ -1,10 +1,12 @@
+@import "assets/scss/theme.scss";
+
 @font-face {
-  font-family: "MyCustomFont";
+  font-family: "Roboto";
   src: url("assets/fonts/Roboto-Regular.ttf") format("truetype");
 }
 
 body {
   font-family: "Roboto", sans-serif;
   margin: 0%;
-  background-color: #efefef;
+  background-color: $background-color;
 }
