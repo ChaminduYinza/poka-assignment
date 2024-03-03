@@ -1,8 +1,12 @@
-<div class="plant-card-body">
-  <h2>{{ plant.name }}</h2>
-  <ul>
-    <li>{{ plant.division }}</li>
-    <li>{{ plant.address }}</li>
-    <li>{{ plant.country }}</li>
-  </ul>
-</div>
+<app-card
+  [variants]="[CardVariant.Rounded, CardVariant.Bordered, CardVariant.Hover]"
+>
+  <div class="plant-card-body">
+    <h2>{{ plant.name }}</h2>
+    <ul>
+      <li>{{ plant.division }}</li>
+      <li>{{ plant.address }}</li>
+      <li>{{ plant.country }}</li>
+    </ul>
+  </div>
+</app-card>

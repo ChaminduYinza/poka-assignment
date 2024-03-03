@@ -15,11 +15,12 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { PlantRes } from '../model/plant.mode';
+import { PlantRes } from '../model/plant.model';
 import { environment } from '../../environments/environment';
 import * as PlantAction from '../state-management/actions/plant.action';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
+import swal from 'sweetalert2';
 
 describe('PlantComponent', () => {
   let component: PlantComponent;
@@ -111,12 +112,17 @@ describe('PlantComponent', () => {
     httpTestingController.verify();
   });
 
-  it('should log an error message when API return error', () => {
+  it('should log an error message when API return error', async () => {
     const consoleSpy = spyOn(console, 'error');
 
     component.loadMoreResults();
     const req = httpTestingController.expectOne(environment.api_plant_base_url);
-    req.error(new ErrorEvent('There was an error'));
+    await req.error(new ErrorEvent('There was an error'));
+    expect(swal.isVisible()).toBeTruthy();
+    expect(swal.getHtmlContainer()?.textContent).toEqual(
+      'Something went wrong. Please try again later'
+    );
+    swal.clickConfirm();
     expect(consoleSpy).toHaveBeenCalledWith('There was an error!');
   });
 
@@ -153,7 +159,7 @@ describe('PlantComponent', () => {
     component.plantOb$ = of(validMockResult);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      const cardElements = fixture.debugElement.queryAll(By.css('.card'));
+      const cardElements = fixture.debugElement.queryAll(By.css('.plant-card'));
       expect(cardElements.length).toEqual(validMockResult.results.length);
     });
   });

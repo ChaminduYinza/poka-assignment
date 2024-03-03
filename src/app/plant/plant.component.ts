@@ -6,9 +6,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { PlantListCardComponent } from './plant-cards/plant-list-card/plant-list-card.component';
-import { PlantRes } from '../model/plant.mode';
+import { PlantRes } from '../model/plant.model';
 import { CommonModule } from '@angular/common';
-import { APIService } from '../service/api.service';
+import { PlantService } from '../service/plant.service';
 import { environment } from '../../environments/environment';
 import { Observable, Subscription, filter, finalize, first } from 'rxjs';
 import { RouterLink } from '@angular/router';
@@ -17,14 +17,21 @@ import { selectDataList } from '../state-management/selectors/plant.selectors';
 import * as PlantAction from '../state-management/actions/plant.action';
 import { BlockUiComponent } from '../block-ui/block-ui.component';
 import Swal from 'sweetalert2';
+import { HeaderComponent } from '../shared/header/header.component';
 
 @Component({
   selector: 'app-plant',
   standalone: true,
-  providers: [APIService],
+  providers: [PlantService],
   templateUrl: './plant.component.html',
   styleUrl: './plant.component.scss',
-  imports: [CommonModule, PlantListCardComponent, RouterLink, BlockUiComponent],
+  imports: [
+    CommonModule,
+    PlantListCardComponent,
+    RouterLink,
+    BlockUiComponent,
+    HeaderComponent,
+  ],
 })
 export class PlantComponent implements OnInit, OnDestroy {
   // TODO: scroll to the latest added card when load more happen
@@ -33,7 +40,7 @@ export class PlantComponent implements OnInit, OnDestroy {
   subscription: Subscription = new Subscription();
   plantOb$: Observable<PlantRes>;
   isLoading: boolean = false;
-  constructor(private apiService: APIService, private store: Store) {
+  constructor(private apiService: PlantService, private store: Store) {
     this.plantOb$ = this.store.select(selectDataList);
   }
 

@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { By } from '@angular/platform-browser';
-import { PlantDetail } from '../../model/plant.mode';
+import { PlantDetail } from '../../model/plant.model';
 
 describe('PlantDetailComponent', () => {
   let component: PlantDetailComponent;
@@ -37,12 +37,6 @@ describe('PlantDetailComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        {
-          provide: Location,
-          useValue: {
-            back: jasmine.createSpy('back'),
-          },
-        },
         {
           provide: ActivatedRoute,
           useValue: { paramMap: paramMapSubject.asObservable() },
@@ -134,21 +128,6 @@ describe('PlantDetailComponent', () => {
       phone: mockPlantDetail.phone,
     });
   });
-
-  it('should call location.back() when goBack is called', () => {
-    spyOn(component.location, 'back');
-    component.goBack();
-    expect(component.goBack).toBeDefined();
-    expect(component.location.back).toHaveBeenCalled();
-  });
-
-  it('should call location.back() when user click #goback', fakeAsync(() => {
-    spyOn(component.location, 'back');
-    const link = fixture.debugElement.query(By.css('#goback')).nativeElement;
-    link.click();
-    expect(component.goBack).toBeDefined();
-    expect(component.location.back).toHaveBeenCalled();
-  }));
 
   it('should unsubscribe on ngOnDestroy', () => {
     const mockSubscription = jasmine.createSpyObj('Subscription', [

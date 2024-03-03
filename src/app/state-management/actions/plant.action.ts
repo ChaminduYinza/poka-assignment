@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PlantRes } from '../../model/plant.mode';
+import { PlantRes } from '../../model/plant.model';
 
 export const setPlantsData = createAction(
   '[Plant] Add Plants Data Object',

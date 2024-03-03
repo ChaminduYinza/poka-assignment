@@ -1,12 +1,14 @@
-<div>
-  <div>
-    <strong>Address</strong>
-    <p>
-      {{ addressDetailFormatted }}
-    </p>
+<app-card>
+  <div class="container">
+    <div>
+      <strong>Address</strong>
+      <p>
+        {{ addressDetailFormatted }}
+      </p>
+    </div>
+    <div class="mt-1">
+      <strong>Manager</strong>
+      <p>{{ addressDetail.manager }}</p>
+    </div>
   </div>
-  <div class="mt-1">
-    <strong>Manager</strong>
-    <p>{{ addressDetail.manager }}</p>
-  </div>
-</div>
+</app-card>

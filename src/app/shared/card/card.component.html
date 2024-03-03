@@ -1,0 +1,10 @@
+<div class="card-container" [ngClass]="variants">
+  @if(title){
+  <header class="card-title">
+    <h3>{{ title }}</h3>
+  </header>
+  }
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

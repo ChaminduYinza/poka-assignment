@@ -4,31 +4,25 @@
   [message]="'Processing your request, please be patient...'"
 ></app-block-ui>
 
-<header class="header">
-  <a id="goback" href="#" (click)="goBack(); $event.preventDefault()">
-    < Back to all plants</a
-  >
-</header>
+<app-header
+  [naviagateBackText]="'< Back to all plants'"
+  [naviagateBacRouter]="'/plants'"
+  [headerTitle]="plantDetail?.name"
+  [subTitle]="plantDetail?.division"
+  [headerVarient]="HeaderVariant.Float"
+>
+</app-header>
 <div class="contailer">
-  <div class="header-title">
-    <h3 class="header-text">
-      {{ plantDetail?.name }}
-      <br />
-      <span class="sub-title">{{ plantDetail?.division }}</span>
-    </h3>
-  </div>
-
   <div class="detail-content">
     @if(addressData){
-    <div class="card">
-      <app-plant-address-card [addressDetail]="addressData">
-      </app-plant-address-card>
-    </div>
+    <app-plant-address-card class="address-card" [addressDetail]="addressData">
+    </app-plant-address-card>
     } @if(plantDetail){
-    <div class="card">
-      <app-plant-description-card [description]="plantDetail.description">
-      </app-plant-description-card>
-    </div>
+    <app-plant-description-card
+      class="desc-card"
+      [description]="plantDetail.description"
+    >
+    </app-plant-description-card>
     }
   </div>
 </div>

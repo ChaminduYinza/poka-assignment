@@ -4,12 +4,13 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { PlantDetail } from '../../../model/plant.mode';
+import { PlantDetail } from '../../../model/plant.model';
+import { CardComponent } from '../../../shared/card/card.component';
 
 @Component({
   selector: 'app-plant-address-card',
   standalone: true,
-  imports: [],
+  imports: [CardComponent],
   templateUrl: './plant-address-card.component.html',
   styleUrl: './plant-address-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

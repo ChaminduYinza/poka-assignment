@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as PlantActions from '../actions/plant.action';
-import { PlantRes } from '../../model/plant.mode';
+import { PlantRes } from '../../model/plant.model';
 
 export const initialState: PlantRes = {
   next: null,

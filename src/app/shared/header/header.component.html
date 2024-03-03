@@ -1,0 +1,24 @@
+<header class="header">
+  @if(naviagateBacRouter && naviagateBackText){
+  <a id="goback" href="#" [routerLink]="naviagateBacRouter">
+    {{ naviagateBackText }}</a
+  >
+  } @if(headerVarient === HeaderVariant.Default){
+  <div class="title">
+    <div class="title-body">
+      <span>{{ headerTitle }}</span>
+      <br />
+      <span class="sub-title">{{ subTitle }}</span>
+    </div>
+  </div>
+  }
+</header>
+@if(headerVarient === HeaderVariant.Float){
+<div class="title float">
+  <div class="title-body">
+    <span>{{ headerTitle }}</span>
+    <br />
+    <span class="sub-title">{{ subTitle }}</span>
+  </div>
+</div>
+}

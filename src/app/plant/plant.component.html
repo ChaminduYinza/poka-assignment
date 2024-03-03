@@ -4,31 +4,29 @@
   [message]="'Processing your request, please be patient...'"
 ></app-block-ui>
 
-<header class="header">
-  <div class="header-title">
-    <h3 class="header-text">Plants</h3>
-  </div>
-</header>
+<app-header [headerTitle]="'Plants'"> </app-header>
 
 @if (plantOb$ | async; as dataList) {
-<div class="card-container">
+<div class="container">
   @for (plant of dataList.results; track plant.id){
   <app-plant-list-card
+    class="plant-card"
     [routerLink]="['/plants', plant.id]"
     [attr.id]="'plantListNo_' + plant.id"
-    class="card"
     [plant]="plant"
   >
   </app-plant-list-card>
   }
-  <button
-    #loadMoreButton
-    id="loadMoreButton"
-    [disabled]="!dataList.next"
-    [ngClass]="{ disabled: !dataList.next }"
-    (click)="loadMoreResults(dataList.next)"
-  >
-    Load More Results
-  </button>
 </div>
-}
+
+@if(dataList?.results?.length){
+<button
+  #loadMoreButton
+  id="loadMoreButton"
+  [disabled]="!dataList.next"
+  [ngClass]="{ disabled: !dataList.next }"
+  (click)="loadMoreResults(dataList.next)"
+>
+  Load More Results
+</button>
+} }

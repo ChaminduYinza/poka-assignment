@@ -1,15 +1,17 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription, finalize, switchMap } from 'rxjs';
-import { APIService } from '../../service/api.service';
-import { ActivatedRoute } from '@angular/router';
-import { PlantDetail } from '../../model/plant.mode';
+import { PlantService } from '../../service/plant.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { PlantDetail } from '../../model/plant.model';
 import { environment } from '../../../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { PlantAddressCardComponent } from '../plant-cards/plant-address-card/plant-address-card.component';
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { PlantDescriptionCardComponent } from '../plant-cards/plant-description-card/plant-description-card.component';
 import { BlockUiComponent } from '../../block-ui/block-ui.component';
 import Swal from 'sweetalert2';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { HeaderVariant } from '../../model/header-variant.enum';
 
 @Component({
   selector: 'app-plant-detail',
@@ -21,16 +23,18 @@ import Swal from 'sweetalert2';
     CommonModule,
     PlantDescriptionCardComponent,
     BlockUiComponent,
+    RouterLink,
+    HeaderComponent,
   ],
 })
 export class PlantDetailComponent implements OnInit, OnDestroy {
   plantDetail: PlantDetail | null = null;
+  HeaderVariant = HeaderVariant;
   addressData!: Omit<PlantDetail, 'description' | 'division' | 'id' | 'name'>;
   subscription: Subscription = new Subscription();
-  private apiService = inject(APIService);
+  private apiService = inject(PlantService);
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
-  public location = inject(Location);
   isLoading = false;
 
   ngOnInit(): void {
@@ -80,6 +84,7 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
    * @param error
    */
   handleError(error: string | Error): void {
+    // TODO: 1 vulnerability there in swal need to create swal manually
     Swal.fire({
       title: 'Oops!',
       text: 'Something went wrong. Please try again later',
@@ -105,13 +110,6 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
   getPlantDetails(index: number) {
     const URL = environment.api_plant_base_url + `/${index}/`;
     return this.apiService.getPlantDetail(URL);
-  }
-
-  /**
-   * handle browser back
-   */
-  goBack(): void {
-    this.location.back();
   }
 
   /**

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PlantDetail, PlantRes } from '../model/plant.mode';
+import { PlantDetail, PlantRes } from '../model/plant.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class APIService {
+export class PlantService {
   private http = inject(HttpClient);
   constructor() {}
 
