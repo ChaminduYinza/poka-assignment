@@ -9,8 +9,9 @@
 
 .card-container {
   background-color: $secondory-background-color;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: $box-shadow-primary;
   height: 100%;
+  display: grid;
 }
 
 .card-body {
@@ -27,6 +28,5 @@
 }
 
 .hover :hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  height: 100%;
+  box-shadow: $box-shadow-hover;
 }
