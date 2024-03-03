@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { By } from '@angular/platform-browser';
 import { PlantDetail } from '../../model/plant.model';
+import Swal from 'sweetalert2';
 
 describe('PlantDetailComponent', () => {
   let component: PlantDetailComponent;
@@ -51,6 +52,10 @@ describe('PlantDetailComponent', () => {
     fixture.detectChanges();
   });
 
+  afterEach(() => {
+    Swal.clickConfirm();
+  });
+
   it('should create plant detail component', () => {
     expect(component).toBeTruthy();
   });
@@ -85,13 +90,17 @@ describe('PlantDetailComponent', () => {
   });
 
   it('should call handle logs error when API response is null', () => {
-    spyOn(component, 'logError');
+    spyOn(component, 'handleError');
     const req = httpTestingController.expectOne(
       environment.api_plant_base_url + '/1/'
     );
     req.flush(null);
-    expect(component.logError).toBeTruthy();
-    expect(component.logError).toHaveBeenCalledWith('No plant details found.');
+    expect(component.handleError).toBeTruthy();
+    expect(component.handleError).toHaveBeenCalled();
+    expect(Swal.isVisible()).toBeTruthy();
+    expect(Swal.getHtmlContainer()?.textContent).toEqual(
+      'Something went wrong. Please try again later'
+    );
   });
 
   it('should set browser title based on the plant detail recived from the API', () => {

@@ -55,8 +55,8 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
         next: (response: PlantDetail) => {
           this.handleResponse(response);
         },
-        error: (error) => {
-          this.handleError(error);
+        error: () => {
+          this.handleError();
         },
       });
   }
@@ -75,7 +75,7 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
       // change browser title
       this.titleService.setTitle(`Poka | ${name}`);
     } else {
-      this.logError('No plant details found.');
+      this.handleError();
     }
   }
 
@@ -83,23 +83,12 @@ export class PlantDetailComponent implements OnInit, OnDestroy {
    * handle API error
    * @param error
    */
-  handleError(error: string | Error): void {
-    // TODO: 1 vulnerability there in swal need to create swal manually
+  handleError(): void {
     Swal.fire({
       title: 'Oops!',
       text: 'Something went wrong. Please try again later',
       icon: 'error',
     });
-    this.logError('There was an error!', error.toString());
-  }
-
-  /**
-   * log error into console
-   * @param message
-   * @param error
-   */
-  logError(message: string, error?: string): void {
-    console.error(message, error || '');
   }
 
   /**

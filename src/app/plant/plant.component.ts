@@ -70,12 +70,7 @@ export class PlantComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response: PlantRes) => this.setResults(response),
           error: () => {
-            Swal.fire({
-              title: 'Oops!',
-              text: 'Something went wrong. Please try again later',
-              icon: 'error',
-            });
-            console.error('There was an error!');
+            this.handleError();
           },
         })
     );
@@ -88,9 +83,22 @@ export class PlantComponent implements OnInit, OnDestroy {
   setResults(response: PlantRes): void {
     if (response != null && response.results?.length > 0) {
       this.store.dispatch(PlantAction.setPlantsData({ plantRes: response }));
+    } else {
+      this.handleError();
     }
   }
 
+  /**
+   * handle API error
+   * @param error
+   */
+  handleError(): void {
+    Swal.fire({
+      title: 'Oops!',
+      text: 'Something went wrong. Please try again later',
+      icon: 'error',
+    });
+  }
   /**
    * un subscribe on componenet destroy
    */

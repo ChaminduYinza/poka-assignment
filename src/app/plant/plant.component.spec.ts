@@ -20,7 +20,7 @@ import { environment } from '../../environments/environment';
 import * as PlantAction from '../state-management/actions/plant.action';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 describe('PlantComponent', () => {
   let component: PlantComponent;
@@ -65,6 +65,10 @@ describe('PlantComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     spyOn(component, 'loadMoreResults');
+  });
+
+  afterEach(() => {
+    Swal.clickConfirm();
   });
 
   it('should create plant component', () => {
@@ -113,17 +117,13 @@ describe('PlantComponent', () => {
   });
 
   it('should log an error message when API return error', async () => {
-    const consoleSpy = spyOn(console, 'error');
-
     component.loadMoreResults();
     const req = httpTestingController.expectOne(environment.api_plant_base_url);
     await req.error(new ErrorEvent('There was an error'));
-    expect(swal.isVisible()).toBeTruthy();
-    expect(swal.getHtmlContainer()?.textContent).toEqual(
+    expect(Swal.isVisible()).toBeTruthy();
+    expect(Swal.getHtmlContainer()?.textContent).toEqual(
       'Something went wrong. Please try again later'
     );
-    swal.clickConfirm();
-    expect(consoleSpy).toHaveBeenCalledWith('There was an error!');
   });
 
   it('should dispatch setPlantsData action when the API returns valid response', () => {
