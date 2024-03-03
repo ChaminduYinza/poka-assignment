@@ -18,7 +18,7 @@
   width: 6vh;
   height: 6vh;
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: $spinner-border;
   animation: spin 1s linear infinite;
 }
 
